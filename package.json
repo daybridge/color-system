@@ -1,0 +1,33 @@
+{
+  "name": "@daybridge/color-system",
+  "version": "1.0.0",
+  "description": "Scripts and utilities for systematically generating color palettes informed by color science",
+  "main": "./lib/generateShades.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint 'src/**/*.ts'"
+  },
+  "bin": {
+    "daybridge-colors": "./lib/index.js"
+  },
+  "author": "Daybridge Software Limited",
+  "license": "MIT",
+  "dependencies": {
+    "cli-color": "^2.0.3",
+    "colorjs.io": "^0.4.5",
+    "yargs": "^17.3.0"
+  },
+  "devDependencies": {
+    "@types/cli-color": "^2.0.2",
+    "@types/node": "^20.3.1",
+    "@types/yargs": "^17.0.24",
+    "@typescript-eslint/eslint-plugin": "^5.59.11",
+    "@typescript-eslint/parser": "^5.59.11",
+    "eslint": "^8.42.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "prettier": "^2.8.8",
+    "typescript": "^4.5.5"
+  }
+}
