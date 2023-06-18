@@ -53,6 +53,11 @@ jobs:
           version: 8
           run_install: false
 
+      - name: Set up .npmrc
+        run: echo -e "//registry.npmjs.org/:_authToken=$NODE_AUTH_TOKEN\nregistry=https://registry.npmjs.org/\nalways-auth=true" > .npmrc
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
       - run: pnpm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
