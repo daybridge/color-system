@@ -1,5 +1,7 @@
 # Daybridge Color System
 
+![](logo.png)
+
 ## Introduction
 Daybridge uses the OKLCH color model. This model is a perceptually uniform color space, which means it takes into account how human vision perceives color. Compared to other color systems like RGB or HSL, OKLCH provides more consistent results when generating color variations, as the perceived difference between colors is consistent across the color space. This leads to more uniform and aesthetically pleasing color schemes.
 
