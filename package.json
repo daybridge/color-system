@@ -18,6 +18,7 @@
     "colorjs.io": "^0.4.5",
     "yargs": "^17.3.0"
   },
+  "private": false,
   "devDependencies": {
     "@types/cli-color": "^2.0.2",
     "@types/node": "^20.3.1",
