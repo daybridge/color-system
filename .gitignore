@@ -131,3 +131,6 @@ dist
 
 # NPM config
 .npmrc
+
+# Compiled code
+lib

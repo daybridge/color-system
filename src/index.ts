@@ -1,59 +1,46 @@
-// Import necessary packages
-import yargs from 'yargs'
-import { hideBin } from 'yargs/helpers'
-import { generateShades } from './generateShades'
+import { maxChromaForHue } from './maxChromaForHue'
 
-interface Arguments {
-  shades: number
-  gamut: string
-  squashFactor: number
+/**
+ * Generates color shades based on the input parameters.
+ *
+ * @param {number} N The number of shades to generate.
+ * @param {string} [gamut="srgb"] The color gamut. Default is "srgb".
+ * @param {number} [squashFactor=1] The factor used to adjust the lightness values. Default is 1.
+ * @returns An array of shades with each shade represented as a pair [lightness, chroma].
+ */
+export function generateShades(N: number, gamut = 'srgb', squashFactor = 1) {
+  // Create an array to hold the generated shades
+  const shades = []
+
+  // Loop over the number of shades to be generated
+  for (let i = 0; i < N; i++) {
+    // Calculate the lightness value for this shade. The calculation is based on the current loop index,
+    // the total number of shades, and the squash factor. The result is then converted to a percentage.
+    const x = 10 * (i / (N - 1) - 0.5) // map i to [-5, 5] range
+    const lightness = (sigmoid(squashFactor * x) * 0.8 + 0.2) * 100 // apply sigmoid, then map to [20, 100] range
+
+    // Create an array to hold the maximum chroma value for each hue
+    const maxChromas = []
+    // Loop over all possible hues (from 0 to 360)
+    for (let hue = 0; hue <= 360; hue++) {
+      // Calculate the maximum chroma value for this hue and lightness, and add it to the array
+      maxChromas.push(maxChromaForHue(lightness, hue, gamut))
+    }
+
+    // Find the minimum value from the array of maximum chroma values
+    // This ensures that the chosen chroma value will work for all possible hues
+    const chroma = Math.min(...maxChromas)
+
+    // Format the lightness and chroma values to fixed decimals and add the shade to the array
+    const lightnessFormatted = lightness.toFixed(2)
+    const chromaFormatted = chroma.toFixed(3)
+    shades.push([lightnessFormatted, chromaFormatted])
+  }
+
+  // Return the array of generated shades
+  return shades
 }
 
-// Parse the command line arguments
-const argv = yargs(hideBin(process.argv))
-  // The number of shades to generate
-  .option('shades', {
-    alias: 's',
-    description: 'Number of shades',
-    type: 'number',
-    demandOption: true,
-  })
-  // The color gamut
-  .option('gamut', {
-    alias: 'g',
-    description: 'Color gamut',
-    type: 'string',
-    default: 'srgb',
-  })
-  // The squash factor for the lightness scale
-  .option('squashFactor', {
-    alias: 'f',
-    description: 'Squash factor',
-    type: 'number',
-    default: 1,
-  })
-  // Show help information
-  .help()
-  .alias('help', 'h').argv as Arguments
-
-// Validate and cast the command line arguments
-const shadesCount = Number(argv.shades)
-const gamut = String(argv.gamut)
-const squashFactor = Number(argv.squashFactor)
-
-// Generate color shades
-const shades = generateShades(shadesCount, gamut, squashFactor)
-
-// Iterate over the generated shades
-for (const [index, shade] of shades.entries()) {
-  // Extract lightness and chroma from the shade
-  const lightness = Number(shade[0])
-  const chroma = Number(shade[1])
-
-  // Print the shade information and ASCII block
-  console.log(
-    `Shade ${index + 1}: (Lightness: ${lightness.toFixed(
-      2,
-    )}, Chroma: ${chroma.toFixed(2)})`,
-  )
+function sigmoid(x: number) {
+  return 1 / (1 + Math.exp(-x))
 }

@@ -1,15 +1,15 @@
 {
   "name": "@daybridge/color-system",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Scripts and utilities for systematically generating color palettes informed by color science",
-  "main": "./lib/generateShades.js",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint 'src/**/*.ts'"
   },
   "bin": {
-    "daybridge-colors": "./lib/index.js"
+    "daybridge-colors": "./lib/cli.js"
   },
   "author": "Daybridge Software Limited",
   "license": "MIT",
