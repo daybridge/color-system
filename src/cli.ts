@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // Import necessary packages
 import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
