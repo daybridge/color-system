@@ -30,30 +30,34 @@ npm install --save @daybridge/color-system
 You can use the tool from the command line as follows:
 
 ```
-daybridge-colors --shades 10 --gamut p3 --squashFactor 1.5
+daybridge-colors --shades 10 --gamut p3 --squashFactorDark 1.5 --squashFactorLight 1.3 --lightnessRange 20,100
 ```
 
 The options are as follows:
 
 - `--shades`: The number of shades to generate.
-- `--gamut`: The color gamut. Options are 'srgb' and 'p3'. Default is 'srgb'.
-- `--squashFactor`: The squash factor used to adjust the lightness values. Higher squash factors lead to more "bunching" at each end. Default is 1.
+- `--gamut`: The color gamut. Options are 'srgb' and 'p3'. Default is 'p3'.
+- `--squashFactorDark`: The squash factor used to adjust the lightness values for the darker shades. Higher squash factors lead to more "bunching" at each end. Default is 1.
+- `--squashFactorLight`: The squash factor used to adjust the lightness values for the lighter shades. Higher squash factors lead to more "bunching" at each end. Default is 1.
+- `--lightnessRange`: The range of lightness values to generate, specified as a comma-separated string with format 'min,max'. Default is '20,100'.
 
 
 ### Programmatic Usage
 You can also use the generateShades function in your code:
 
 ```
-const { generateShades } = require('daybridge-colors');
+const { generateShades } = require('@daybridge/color-system');
 
-let shades = generateShades(5, 'srgb', 1);
+let shades = generateShades(5, 'srgb', 1, 1, [20, 100]);
 ```
 
 The generateShades function takes three parameters:
 
 - `N`: The number of shades to generate.
-- `gamut`: The color gamut. Options are 'srgb' and 'p3'. Default is 'srgb'.
-- `squashFactor`: The squash factor used to adjust the lightness values. Higher squash factors lead to more "bunching" at each end. Default is 1.
+- `gamut`: The color gamut. Options are 'srgb' and 'p3'. Default is 'p3'.
+- `squashFactorDark`: The squash factor used to adjust the lightness values for the darker shades. Default is 1.
+- `squashFactorLight`: The squash factor used to adjust the lightness values for the lighter shades. Default is 1.
+- `lightnessRange`: The range of lightness values to generate, specified as an array of two numbers: `[min, max]`. Default is `[20, 100]`.
 
 It returns an array of shades with each shade represented as a pair `[lightness, chroma]`.
 

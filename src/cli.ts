@@ -7,7 +7,9 @@ import { generateShades } from '.'
 interface Arguments {
   shades: number
   gamut: string
-  squashFactor: number
+  squashFactorDark: number
+  squashFactorLight: number
+  lightnessRange: string
 }
 
 // Parse the command line arguments
@@ -26,12 +28,26 @@ const argv = yargs(hideBin(process.argv))
     type: 'string',
     default: 'srgb',
   })
-  // The squash factor for the lightness scale
-  .option('squashFactor', {
-    alias: 'f',
-    description: 'Squash factor',
+  // The squash factor for the darker shades
+  .option('squashFactorDark', {
+    alias: 'f1',
+    description: 'Squash factor for darker shades',
     type: 'number',
     default: 1,
+  })
+  // The squash factor for the lighter shades
+  .option('squashFactorLight', {
+    alias: 'f2',
+    description: 'Squash factor for lighter shades',
+    type: 'number',
+    default: 1,
+  })
+  // The lightness range
+  .option('lightnessRange', {
+    alias: 'r',
+    description: 'Lightness range (format: min,max)',
+    type: 'string',
+    default: '20,100',
   })
   // Show help information
   .help()
@@ -40,10 +56,18 @@ const argv = yargs(hideBin(process.argv))
 // Validate and cast the command line arguments
 const shadesCount = Number(argv.shades)
 const gamut = String(argv.gamut)
-const squashFactor = Number(argv.squashFactor)
+const squashFactorDark = Number(argv.squashFactorDark)
+const squashFactorLight = Number(argv.squashFactorLight)
+const lightnessRange = argv.lightnessRange.split(',').map(Number)
 
 // Generate color shades
-const shades = generateShades(shadesCount, gamut, squashFactor)
+const shades = generateShades(
+  shadesCount,
+  gamut,
+  squashFactorDark,
+  squashFactorLight,
+  lightnessRange,
+)
 
 // Iterate over the generated shades
 for (const [index, shade] of shades.entries()) {
@@ -55,6 +79,6 @@ for (const [index, shade] of shades.entries()) {
   console.log(
     `Shade ${index + 1}: (Lightness: ${lightness.toFixed(
       2,
-    )}, Chroma: ${chroma.toFixed(2)})`,
+    )}, Chroma: ${chroma.toFixed(3)})`,
   )
 }

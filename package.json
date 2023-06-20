@@ -1,6 +1,6 @@
 {
   "name": "@daybridge/color-system",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Scripts and utilities for systematically generating color palettes informed by color science",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
